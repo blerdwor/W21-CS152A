@@ -69,27 +69,27 @@ module vending_machine(
 	 
 	 // always block to time 5 cycles for GET_CODE1 and CHECK_CODE_CARD
 	 always @ (posedge CLK)
-    begin
+    		begin
 		if (start_timer)
 			timer <= timer + 1'b1;
 		else
 			timer <= 3'b0;		
-	 end
+	 	end
 	 
 	 // always block to time 5 cycles for GET_CODE2 and WAIT_DOOR_OPEN
 	 always @ (posedge CLK)
-    begin
+    		begin
 		if (start_timer2)
 			timer2 <= timer2 + 1'b1;
 		else
 			timer2 <= 3'b0;		
-	 end
+	 	end
 		
 	 // always block to decide next_state : combinational- triggered by state/input 
 	 always @(*)
 		if (RESET) 
-         next_state = RST;
-	   else case(current_state)
+         		next_state = RST;
+	   	else case(current_state)
 			IDLE: 
 				begin
 				if (RELOAD)
@@ -99,9 +99,9 @@ module vending_machine(
 				end
 			GET_CODE1: 
 				begin
-            if (timeout == 1'd1) 
+            			if (timeout == 1'd1) 
 					next_state = IDLE;
-            else if (key_in == 1'b1)
+            			else if (key_in == 1'b1)
 					next_state = GET_CODE2;
 				end
 			GET_CODE2: 
@@ -115,7 +115,7 @@ module vending_machine(
 				begin
 				if (bad_code == 1'b1)
 					next_state = BAD_CODE;
-            else if (timeout == 1'b1)
+            			else if (timeout == 1'b1)
 					next_state = BAD_CARD;
 				else if (valid)
 					next_state = WAIT_DOOR_OPEN;
@@ -127,14 +127,16 @@ module vending_machine(
 				else if (DOOR_OPEN)
 					next_state = WAIT_DOOR_CLOSE;
 				end
-			WAIT_DOOR_CLOSE: begin
+			WAIT_DOOR_CLOSE: 
+				begin
 				if (~DOOR_OPEN)
 					next_state = IDLE;
-			end
-			default: begin
+				end
+			default: 
+				begin
 				next_state = IDLE;
-			end
-		endcase
+				end
+			endcase
 		
 		//always block to decide outputs : triggered by state/inputs; can be comb/seq.
 		always @(*)
@@ -155,7 +157,7 @@ module vending_machine(
 					INVALID_SEL = 1'b0;
 					COST = 4'b0;
 					FAILED_TRAN = 1'b0;
-               end
+               				end
 				GET_CODE1: 
 					begin
 					start_timer = 1'b1;
@@ -271,5 +273,5 @@ module vending_machine(
 					COST = 4'b0;
 					FAILED_TRAN = 1'b0;
 					end
-		endcase
+			endcase
 endmodule
