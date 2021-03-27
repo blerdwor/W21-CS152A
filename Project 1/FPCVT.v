@@ -53,15 +53,15 @@ module convert_to_signMag(
 	
 	// convert negative numbers to positive
 	// handle most negative number in special way 
-	always @(d) begin
+	always @(d) 
+		begin
 		if (d == 13'b1_0000_0000_0000)
 			pos = 13'b0_1111_1111_1111;
 		else if (d[12] == 1)
 			pos = -d;
 		else
 			pos = d;
-	end
-	
+		end
 endmodule
 
 module convert_to_floatPoint(
@@ -74,58 +74,66 @@ module convert_to_floatPoint(
 	reg [12:0] temp;
 	
 	// priority encoder to count leading 0's
-	always @(num) begin
+	always @(num) 
+		begin
 		temp = 13'bx;
 		casex(num[12:0])  
-			13'b0_1xxx_xxxx_xxxx : begin // 1 leading 0 = exp 7
-											exp = 3'b111;
-											temp = num >> 6;
-											sig = temp[5:1];
-											sixth_bit = temp[0];
-										  end
-			13'b0_01xx_xxxx_xxxx: begin 
-											exp = 3'b110;	// 2 " = exp 6
-											temp = num >> 5;
-											sig = temp[5:1];
-											sixth_bit = temp[0];
-										 end	
-			13'b0_001x_xxxx_xxxx: begin 
-											exp = 3'b101;	// 3 " = exp 5
-											temp = num >> 4;
-											sig = temp[5:1];
-											sixth_bit = temp[0];
-										 end	
-			13'b0_0001_xxxx_xxxx: begin
-											exp = 3'b100;	// 4 " = exp 4
-											temp = num >> 3;
-											sig = temp[5:1];
-											sixth_bit = temp[0];
-										 end	
-			13'b0_0000_1xxx_xxxx: begin 
-											exp = 3'b011;	// 5 " = exp 3
-											temp = num >> 2;
-											sig = temp[5:1];
-											sixth_bit = temp[0];
-										 end 	
-			13'b0_0000_01xx_xxxx: begin 
-											exp = 3'b010;	// 6 " = exp 2
-											temp = num >> 1;
-											sig = temp[5:1];
-											sixth_bit = temp[0];
-										 end	
-			13'b0_0000_001x_xxxx: begin 
-											exp = 3'b001;	// 7 " = exp 1
-			                        sig = num[5:1];
-											sixth_bit = num[0];
-			                      end
-			default: begin 
-							exp = 3'b000;	// 8+ " = exp 0 
-							sig = num[4:0];
-							sixth_bit = 0;
-						end
-		endcase
-	end
-	
+			13'b0_1xxx_xxxx_xxxx : 
+				begin // 1 leading 0 = exp 7
+				exp = 3'b111;
+				temp = num >> 6;
+				sig = temp[5:1];
+				sixth_bit = temp[0];
+				end
+			13'b0_01xx_xxxx_xxxx: 
+				begin 
+				exp = 3'b110;	// 2 " = exp 6
+				temp = num >> 5;
+				sig = temp[5:1];
+				sixth_bit = temp[0];
+				end	
+			13'b0_001x_xxxx_xxxx: 
+				begin 
+				exp = 3'b101;	// 3 " = exp 5
+				temp = num >> 4;
+				sig = temp[5:1];
+				sixth_bit = temp[0];
+				end	
+			13'b0_0001_xxxx_xxxx: 
+				begin
+				exp = 3'b100;	// 4 " = exp 4
+				temp = num >> 3;
+				sig = temp[5:1];
+				sixth_bit = temp[0];
+				end	
+			13'b0_0000_1xxx_xxxx: 
+				begin 
+				exp = 3'b011;	// 5 " = exp 3
+				temp = num >> 2;
+				sig = temp[5:1];
+				sixth_bit = temp[0];
+			 	end 	
+			13'b0_0000_01xx_xxxx: 
+				begin 
+				exp = 3'b010;	// 6 " = exp 2
+				temp = num >> 1;
+				sig = temp[5:1];
+				sixth_bit = temp[0];
+				end	
+			13'b0_0000_001x_xxxx: 
+				begin 
+				exp = 3'b001;	// 7 " = exp 1
+				sig = num[5:1];
+				sixth_bit = num[0];
+			        end
+			default:
+				begin 
+				exp = 3'b000;	// 8+ " = exp 0 
+				sig = num[4:0];
+				sixth_bit = 0;
+				end
+			endcase
+		end	
 endmodule
 
 module round(
@@ -137,26 +145,31 @@ module round(
     );
 	 
 	 always @(*) begin
-		if (sixth_bit == 1) begin
-			if (sig < 5'b1_1111) begin // no sig overflow
+		if (sixth_bit == 1) 
+			begin
+			if (sig < 5'b1_1111) 
+				begin // no sig overflow
 				E = exp;
 				F = sig + 1;
-			end
-			else begin // sig overflow
-				if (exp < 3'b111) begin // no exp overflow
+				end
+			else 
+				begin // sig overflow
+				if (exp < 3'b111) 
+					begin // no exp overflow
 					E = exp + 1;
 					F = 5'b1_0000;
-				end
-				else begin // exp overflow
+					end
+				else 
+					begin // exp overflow
 					E = 3'b111;
 					F = 5'b1_1111;
+					end
 				end
 			end
-		end
-		else begin // no need for rounding
+		else 
+			begin // no need for rounding
 			E = exp;
 			F = sig;
-		end
-	 end
-	 
+			end
+	 	end
 endmodule
