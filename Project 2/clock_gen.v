@@ -68,13 +68,12 @@ module counter4Bit(
     );
     
     always @(posedge clk)
-    begin
-        if(rst)
-            a <= 4'd0;
-        else
-            a <= a + 1'b1;
-    end
-	 
+	    begin
+		if(rst)
+		    a <= 4'd0;
+		else
+		    a <= a + 1'b1;
+	    end
 endmodule
 
 module clock_div_two(
@@ -99,7 +98,6 @@ module clock_div_two(
 	assign clk_div_4 = a[1];
 	assign clk_div_8 = a[2];
 	assign clk_div_16 = a[3];
-
 endmodule
 
 // Task 2
@@ -112,19 +110,21 @@ module clock_div_thirty_two(
 	
 	reg [3:0] a;
 	
-	always @(posedge clk_in) begin
-		if(rst) begin
+	always @(posedge clk_in) 
+		begin
+		if (rst) 
+			begin
 			a <= 4'd0;
 			clk_div_32 <= 1'b0;
-		end
-		else if(a == 4'd15) begin
+			end
+		else if (a == 4'd15) 
+			begin
 			a <= a + 1'b1;
 			clk_div_32 <= ~clk_div_32;
-		end
+			end
 		else
 			a <= a + 1'b1;
-    end
-
+    		end
 endmodule
 
 module clock_div_twenty_eight(
@@ -135,19 +135,21 @@ module clock_div_twenty_eight(
 	
 	reg [3:0] a;
 	
-	always @(posedge clk_in) begin
-		if(rst) begin
+	always @(posedge clk_in) 
+		begin
+		if(rst) 
+			begin
 			a <= 4'd0;
 			clk_div_28 <= 1'b0;
-		end
-		else if(a == 4'd13) begin
+			end
+		else if(a == 4'd13) 
+			begin
 			a <= 4'd0;
 			clk_div_28 <= ~clk_div_28;
-		end
+			end
 		else
 			a <= a + 1'b1;
     end
-
 endmodule
 
 // Task 3
@@ -165,43 +167,50 @@ module clock_33_duty(
 	reg [1:0] b;
 	
 	// positive edge triggered
-	always @(posedge clk_in) begin
-		if(rst) begin
-          a <= 2'd0;
-			 clk_33_duty_pos <= 1'b0;
-		end
-		else if (a == 2'b01) begin // flip up at 1
+	always @(posedge clk_in) 
+		begin
+		if(rst) 
+			begin
+          		a <= 2'd0;
+			clk_33_duty_pos <= 1'b0;
+			end
+		else if (a == 2'b01) 
+			begin // flip up at 1
 			a <= a + 1'b1;
 			clk_33_duty_pos <= ~clk_33_duty_pos;
-		end
-		else if (a == 2'b10) begin // reset at 2
+			end
+		else if (a == 2'b10) 
+			begin // reset at 2
 			a <= 2'd0;
 			clk_33_duty_pos <= ~clk_33_duty_pos;
-		end
+			end
 		else
-          a <= a + 1'b1;
-   end
+          		a <= a + 1'b1;
+   		end
 	
 	// negative edge triggered
-	always @(negedge clk_in) begin
-		if(rst) begin
-          b <= 2'd0;
-			 clk_33_duty_neg <= 1'b0;
-		end
-		else if (b == 2'b01) begin // flip up at 1
+	always @(negedge clk_in) 
+		begin
+		if(rst) 
+			begin
+          		b <= 2'd0;
+			clk_33_duty_neg <= 1'b0;
+			end
+		else if (b == 2'b01) 
+			begin // flip up at 1
 			b <= b + 1'b1;
 			clk_33_duty_neg <= ~clk_33_duty_neg;
-		end
-		else if (b == 2'b10) begin // reset at 2
+			end
+		else if (b == 2'b10) 
+			begin // reset at 2
 			b <= 2'd0;
 			clk_33_duty_neg <= ~clk_33_duty_neg;
-		end
+			end
 		else
-          b <= b + 1'b1;
-   end
+          		b <= b + 1'b1;
+   		end
 	
-	assign clk_or = clk_33_duty_pos || clk_33_duty_neg;
-	
+	assign clk_or = clk_33_duty_pos || clk_33_duty_neg;	
 endmodule
 
 module clock_div_five(
@@ -216,43 +225,50 @@ module clock_div_five(
 	reg [2:0] b;
 	
 	// positive edge triggered
-	always @(posedge clk_in) begin
-		if(rst) begin
-          a <= 3'd0;
-			 clk_40_duty_pos <= 1'b0;
-		end
-		else if (a == 3'b010) begin // flip at 2
+	always @(posedge clk_in) 
+		begin
+		if(rst) 
+			begin
+          		a <= 3'd0;
+			clk_40_duty_pos <= 1'b0;
+			end
+		else if (a == 3'b010) 
+			begin // flip at 2
 			a <= a + 1'b1;
 			clk_40_duty_pos <= ~clk_40_duty_pos;
-		end
-		else if (a == 3'b100) begin // reset at 4
+			end
+		else if (a == 3'b100) 
+			begin // reset at 4
 			a <= 3'd0;
 			clk_40_duty_pos <= ~clk_40_duty_pos;
-		end
+			end
 		else
-          a <= a + 1'b1;
-   end
+          		a <= a + 1'b1;
+   		end
 	
 	// negative edge triggered
-	always @(negedge clk_in) begin
-		if(rst) begin
-          b <= 3'd0;
-			 clk_40_duty_neg <= 1'b0;
-		end
-		else if (b == 3'b010) begin // flip at 2
+	always @(negedge clk_in) 
+		begin
+		if (rst) 
+			begin
+          		b <= 3'd0;
+			clk_40_duty_neg <= 1'b0;
+			end
+		else if (b == 3'b010) 
+			begin // flip at 2
 			b <= b + 1'b1;
 			clk_40_duty_neg <= ~clk_40_duty_neg;
-		end
-		else if (b == 3'b100) begin // reset at 4
+			end
+		else if (b == 3'b100) 
+			begin // reset at 4
 			b <= 3'd0;
 			clk_40_duty_neg <= ~clk_40_duty_neg;
-		end
+			end
 		else
-          b <= b + 1'b1;
-   end
+          		b <= b + 1'b1;
+   		end
 	
-	assign clk_div_5 = clk_40_duty_pos || clk_40_duty_neg;
-	
+	assign clk_div_5 = clk_40_duty_pos || clk_40_duty_neg;	
 endmodule
 
 // Task 4
@@ -266,27 +282,30 @@ module clock_div_100 (
 	);
 	
 	// 100 block
-	always @(posedge clk_in) begin
-		if (rst) begin
+	always @(posedge clk_in) 
+		begin
+		if (rst) 
+			begin
 			a <= 7'd0;
 			clk_div_100 <= 1'b0;
 			clk_div_200 <= 1'b0;
-		end
-		else if (a == 7'd98) begin // flip up at 98
+			end
+		else if (a == 7'd98) 
+			begin // flip up at 98
 			a <= a + 1'b1;
 			clk_div_100 <= ~clk_div_100;
-		end
-		else if (a == 7'd99) begin // reset at 99
+			end
+		else if (a == 7'd99) 
+			begin // reset at 99
 			a <= 7'd0;
 			clk_div_100 <= ~clk_div_100;
-		end
+			end
 		else
 			a <= a + 1'b1;
 			
 		if (clk_div_100 == 1'b1) // for 200 clock
 			clk_div_200 <= ~clk_div_200;
-	end
-	
+		end
 endmodule
 
 module clock_strobe(
@@ -297,19 +316,22 @@ module clock_strobe(
 	
 	reg [1:0] strobe;
 	
-	always @(posedge clk_in) begin
-		if (rst) begin
+	always @(posedge clk_in) 
+		begin
+		if (rst) 
+			begin
 			strobe <= 2'd0;
 			toggle_counter <= 7'd0;
-		end
-		else if (strobe == 2'd3) begin // subtract 5 on strobe
+			end
+		else if (strobe == 2'd3) 
+			begin // subtract 5 on strobe
 			strobe <= strobe + 1'b1;
 			toggle_counter <= toggle_counter - 7'd5;
-		end
-		else begin
+			end
+		else 
+			begin
 			strobe <= strobe + 1'b1;
 			toggle_counter <= toggle_counter + 7'd2;
+			end
 		end
-	end
-
 endmodule
