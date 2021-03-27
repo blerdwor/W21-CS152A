@@ -60,9 +60,9 @@ module parking_meter(
 		else if (rst2)
 			new_meter_time <= 150;
 		else if ((meter_time >= 9939 && add1) ||
-					(meter_time >= 9879 && add2) ||
-					(meter_time >= 9819 && add3) ||
-					(meter_time >= 9699 && add4))
+			 (meter_time >= 9879 && add2) ||
+			 (meter_time >= 9819 && add3) ||
+			 (meter_time >= 9699 && add4))
 			new_meter_time <= 9999;
 		else if (add1)
 			new_meter_time <= meter_time + 60;
@@ -104,8 +104,8 @@ module parking_meter(
 	 // always block to decide next_state : combinational- triggered by state/input 
 	 always @(*)
 		if (rst) 
-         next_state = INIT;
-	   else case(current_state)
+         		next_state = INIT;
+	   	else case(current_state)
 			INIT:
 				begin
 				if (rst1 || rst2)
@@ -221,7 +221,7 @@ module parking_meter(
 							a1 = 0;
 							led_seg = display_led(val1);
 							end
-					endcase
+						endcase
 					end
 			endcase
 			
@@ -242,7 +242,6 @@ module parking_meter(
 				endcase
 			end
 		endfunction 
-
 endmodule
 
 module bcd_converter(
@@ -273,7 +272,6 @@ module count_to_100(
 			counter <= 0;
 		else
 			counter <= counter + 1;
-	
 endmodule
 
 module count_to_4(
@@ -287,5 +285,4 @@ module count_to_4(
 		counter <= 0;
 	else
 		counter <= counter + 1;
-	
 endmodule 
