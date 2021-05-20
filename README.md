@@ -1,4 +1,4 @@
-# W21-CS152A
+# W21-CSM152A
 
 These are my solutions to the projects for CS M152A - Introduction to Digital Design Lab, taken during Winter 2021.
 
